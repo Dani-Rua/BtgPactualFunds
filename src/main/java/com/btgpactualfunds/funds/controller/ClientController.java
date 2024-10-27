@@ -2,7 +2,7 @@ package com.btgpactualfunds.funds.controller;
 
 
 import com.btgpactualfunds.funds.entities.Client;
-import com.btgpactualfunds.funds.repository.ClientRepositoryIMPL;
+import com.btgpactualfunds.funds.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,35 +16,35 @@ import java.util.Optional;
 public class ClientController {
 
     @Autowired
-    private ClientRepositoryIMPL clientRepositoryIMPl;
+    private ClientRepository clientRepository;
 
     @GetMapping("/client/find/{id}")
     public ResponseEntity <Optional<Client>> findClient(@PathVariable String id) {
-        Optional<Client> findClient=this.clientRepositoryIMPl.findClient(id);
+        Optional<Client> findClient=this.clientRepository.findById(id);
         return new ResponseEntity<Optional<Client>>(findClient, HttpStatus.CREATED);
     }
 
     @GetMapping("/client/find-all")
     public ResponseEntity <List<Client>> findAllClient() {
-        List<Client> findAllClient=this.clientRepositoryIMPl.findAllClient();
+        List<Client> findAllClient=this.clientRepository.findAll();
         return new ResponseEntity<List<Client>>(findAllClient, HttpStatus.OK);
     }
 
     @PostMapping("/client/add")
     public ResponseEntity <Client> addClient(@RequestBody Client client) {
-        Client addClient=this.clientRepositoryIMPl.addClient(client);
+        Client addClient=this.clientRepository.save(client);
         return new ResponseEntity<Client>(addClient, HttpStatus.CREATED);
     }
 
-    @PostMapping("/client/update")
+    @PutMapping("/client/update")
     public ResponseEntity <Client> updateClient(@RequestBody Client client) {
-        Client updateClient=this.clientRepositoryIMPl.updateClient(client);
+        Client updateClient=this.clientRepository.save(client);
         return new ResponseEntity<Client>(updateClient, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/client/delete/{id}")
     public ResponseEntity deleteClient(@PathVariable String id) {
-        this.clientRepositoryIMPl.deleteClient(id);
+        this.clientRepository.deleteById(id);
         return new ResponseEntity(null, HttpStatus.OK);
     }
 }

@@ -8,23 +8,17 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
-
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Document(collection = "Client")
+@Document(collection = "Funds")
 
-public class Client {
+public class Funds {
     @Id
-    private String id;
+    private String fundId;
     private String name;
-    private String email;
-    private String phone;
-    private BigDecimal currentBalance;
-    private Funds fundId;
-    private String notificationMethod;
+    private String category;
+    private String minimumAmount;
 }
