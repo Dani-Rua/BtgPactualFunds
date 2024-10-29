@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -13,17 +14,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class TransactionQueryResponseDTO {
+public class TransactionResponseDTO {
 
     private List<TransactionDTO> transactions;
 
     @Getter
     @Setter
     public static class TransactionDTO {
-        private String transactionId;
-        private String fundId;
+        private int transactionId;
+        private int fundId;
         private String transactionType;
-        private double amount;
-
+        private float amount;
+        private Date date;
     }
 }

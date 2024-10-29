@@ -1,50 +1,54 @@
 package com.btgpactualfunds.funds.controller;
 
-
+import com.btgpactualfunds.funds.dto.request.FundSubscriptionRequestDTO;
+import com.btgpactualfunds.funds.dto.request.FundWithdrawalRequestDTO;
 import com.btgpactualfunds.funds.entities.Client;
+import com.btgpactualfunds.funds.exception.NotEnoughtBalanceException;
+import com.btgpactualfunds.funds.exception.NotFoundClientException;
+import com.btgpactualfunds.funds.exception.NotFoundFundException;
 import com.btgpactualfunds.funds.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.btgpactualfunds.funds.services.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ClientController {
+    private final ClientService clientService;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @GetMapping("/client/find/{id}")
-    public ResponseEntity <Optional<Client>> findClient(@PathVariable String id) {
-        Optional<Client> findClient=this.clientRepository.findById(id);
-        return new ResponseEntity<Optional<Client>>(findClient, HttpStatus.CREATED);
+    @PostMapping("/client/fund")
+    public ResponseEntity <Optional<Client>> subscribe(@RequestBody FundSubscriptionRequestDTO request){
+        try {
+            clientService.subscribeFund(request);
+        } catch (NotFoundClientException | NotFoundFundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NotEnoughtBalanceException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/client/find-all")
-    public ResponseEntity <List<Client>> findAllClient() {
-        List<Client> findAllClient=this.clientRepository.findAll();
-        return new ResponseEntity<List<Client>>(findAllClient, HttpStatus.OK);
-    }
-
-    @PostMapping("/client/add")
-    public ResponseEntity <Client> addClient(@RequestBody Client client) {
-        Client addClient=this.clientRepository.save(client);
-        return new ResponseEntity<Client>(addClient, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/client/update")
-    public ResponseEntity <Client> updateClient(@RequestBody Client client) {
-        Client updateClient=this.clientRepository.save(client);
-        return new ResponseEntity<Client>(updateClient, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/client/delete/{id}")
-    public ResponseEntity deleteClient(@PathVariable String id) {
-        this.clientRepository.deleteById(id);
-        return new ResponseEntity(null, HttpStatus.OK);
+    @DeleteMapping("/client/fund")
+    public ResponseEntity <Optional<Client>> unsubscribe(@RequestBody FundWithdrawalRequestDTO request){
+        try {
+            clientService.unsubscribeFund(request);
+        } catch (NotFoundClientException | NotFoundFundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

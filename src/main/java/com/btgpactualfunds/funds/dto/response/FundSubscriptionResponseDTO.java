@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public class FundSubscriptionResponseDTO {
 
-    private String transactionId;
+    private int transactionId;
     private String message;
 
 }

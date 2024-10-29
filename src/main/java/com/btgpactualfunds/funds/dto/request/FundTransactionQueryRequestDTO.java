@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class FundTransactionQueryRequestDTO {
-    private String clientId;
+    private int clientId;
 }

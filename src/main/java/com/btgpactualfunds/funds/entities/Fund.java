@@ -1,6 +1,7 @@
 package com.btgpactualfunds.funds.entities;
 
 
+import com.btgpactualfunds.funds.exception.MinimumAmountException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Document(collection = "Funds")
-
-public class Funds {
+public class Fund {
     @Id
-    private String fundId;
+    private int id;
     private String name;
     private String category;
-    private String minimumAmount;
+    private float minimumAmount;
+
+    public void validateMinimumAmount(float amount) throws MinimumAmountException {
+        if (minimumAmount > amount) {
+            throw new MinimumAmountException();
+        }
+    }
 }

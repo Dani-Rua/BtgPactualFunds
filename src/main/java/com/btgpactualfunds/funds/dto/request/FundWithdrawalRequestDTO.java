@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class FundWithdrawalRequestDTO {
-    private String clientId;
-    private String fundId;
+    private int clientId;
+    private int fundId;
 }

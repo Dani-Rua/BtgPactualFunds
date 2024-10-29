@@ -13,7 +13,7 @@ import lombok.Setter;
 
 public class FundCancellationResponseDTO {
 
-    private String transactionId;
-    private String message;
+    private int transactionId;
+    private int message;
     private double refundedAmount;
 }

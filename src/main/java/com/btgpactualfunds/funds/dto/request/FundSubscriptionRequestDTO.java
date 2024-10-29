@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class FundSubscriptionRequestDTO {
-    private String clientId;
-    private String fundId;
-    private double amount;
+    private int clientId;
+    private int fundId;
+    private float subscriptionAmount;
 }

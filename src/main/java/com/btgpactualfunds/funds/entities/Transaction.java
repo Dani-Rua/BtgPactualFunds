@@ -1,29 +1,24 @@
 package com.btgpactualfunds.funds.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-@Document(collection = "Funds")
-
+@Document(collection = "Transaction")
+@Builder
 public class Transaction {
     @Id
-    private String transactionId;
-    private Date date;
+    private int transactionId;
+    private int clientId;
+    private int fundsId;
     private String type;
-    private Funds fundsId;
-    private BigDecimal amount;
+    private float amount;
     private boolean notificationSent;
-    private String clientId;
+    private Date date;
 }
