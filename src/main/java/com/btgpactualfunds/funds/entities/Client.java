@@ -5,6 +5,7 @@ import com.btgpactualfunds.funds.exception.FundNotExistsException;
 import com.btgpactualfunds.funds.exception.FundExistsException;
 import com.btgpactualfunds.funds.exception.NotEnoughtBalanceException;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Client")
+@Builder
 public class Client {
     @Id
     private int id;

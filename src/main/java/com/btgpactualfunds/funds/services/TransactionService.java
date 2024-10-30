@@ -13,7 +13,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public List<Transaction> getTransactionsByClientId(Integer clientId) {
+    public List<Transaction> getTransactionsByClientId(Integer clientId) throws Exception{
         return transactionRepository.findByClientId(clientId);
     }
 }

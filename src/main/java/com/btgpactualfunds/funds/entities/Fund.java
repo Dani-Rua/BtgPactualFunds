@@ -2,10 +2,7 @@ package com.btgpactualfunds.funds.entities;
 
 
 import com.btgpactualfunds.funds.exception.MinimumAmountException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Funds")
+@Builder
 public class Fund {
     @Id
     private int id;

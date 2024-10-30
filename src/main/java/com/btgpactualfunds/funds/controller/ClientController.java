@@ -6,9 +6,10 @@ import com.btgpactualfunds.funds.entities.Client;
 import com.btgpactualfunds.funds.exception.NotEnoughtBalanceException;
 import com.btgpactualfunds.funds.exception.NotFoundClientException;
 import com.btgpactualfunds.funds.exception.NotFoundFundException;
-import com.btgpactualfunds.funds.repository.ClientRepository;
 import com.btgpactualfunds.funds.services.ClientService;
-import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ClientController {
-    private final ClientService clientService;
+
+    @Autowired
+    private ClientService clientService;
 
     @PostMapping("/client/fund")
     public ResponseEntity <Optional<Client>> subscribe(@RequestBody FundSubscriptionRequestDTO request){

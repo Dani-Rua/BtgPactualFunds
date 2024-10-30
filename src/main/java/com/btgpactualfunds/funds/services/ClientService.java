@@ -10,25 +10,21 @@ import com.btgpactualfunds.funds.exception.NotFoundClientException;
 import com.btgpactualfunds.funds.exception.NotFoundFundException;
 import com.btgpactualfunds.funds.repository.ClientRepository;
 import com.btgpactualfunds.funds.repository.FundsRepository;
-
 import com.btgpactualfunds.funds.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final FundsRepository fundsRepository;
 
-    @Autowired
-    private FundsRepository fundsRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public void subscribeFund(FundSubscriptionRequestDTO request) throws Exception {
         Optional<Client> optionalClient = clientRepository.findById(request.getClientId());
