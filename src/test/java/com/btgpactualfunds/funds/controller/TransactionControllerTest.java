@@ -1,10 +1,6 @@
 package com.btgpactualfunds.funds.controller;
 
-import com.btgpactualfunds.funds.dto.request.FundWithdrawalRequestDTO;
-import com.btgpactualfunds.funds.entities.Client;
-import com.btgpactualfunds.funds.entities.Transaction;
 import com.btgpactualfunds.funds.services.TransactionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -16,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TransactionController.class)

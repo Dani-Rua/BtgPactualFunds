@@ -1,7 +1,7 @@
 package com.btgpactualfunds.funds.controller;
 
-import java.util.List;
-
+import com.btgpactualfunds.funds.entities.Fund;
+import com.btgpactualfunds.funds.services.FundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btgpactualfunds.funds.entities.Fund;
-import com.btgpactualfunds.funds.services.FundService;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")

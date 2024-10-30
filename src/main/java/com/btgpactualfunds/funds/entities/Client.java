@@ -1,8 +1,8 @@
 package com.btgpactualfunds.funds.entities;
 
 
-import com.btgpactualfunds.funds.exception.FundNotExistsException;
 import com.btgpactualfunds.funds.exception.FundExistsException;
+import com.btgpactualfunds.funds.exception.FundNotExistsException;
 import com.btgpactualfunds.funds.exception.NotEnoughtBalanceException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

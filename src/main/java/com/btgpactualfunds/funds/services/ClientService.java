@@ -2,34 +2,61 @@ package com.btgpactualfunds.funds.services;
 
 import com.btgpactualfunds.funds.dto.request.FundSubscriptionRequestDTO;
 import com.btgpactualfunds.funds.dto.request.FundWithdrawalRequestDTO;
-import com.btgpactualfunds.funds.entities.Client;
-import com.btgpactualfunds.funds.entities.Fund;
-import com.btgpactualfunds.funds.entities.SubscriptionFund;
-import com.btgpactualfunds.funds.entities.Transaction;
+import com.btgpactualfunds.funds.entities.*;
 import com.btgpactualfunds.funds.exception.NotFoundClientException;
 import com.btgpactualfunds.funds.exception.NotFoundFundException;
 import com.btgpactualfunds.funds.repository.ClientRepository;
 import com.btgpactualfunds.funds.repository.FundsRepository;
 import com.btgpactualfunds.funds.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
+    @Autowired
     private final ClientRepository clientRepository;
 
     private final FundsRepository fundsRepository;
 
     private final TransactionRepository transactionRepository;
 
-    public void subscribeFund(FundSubscriptionRequestDTO request) throws Exception {
+    @Autowired
+    private EmailService emailService;
+
+    public Response subscriptions(Integer clientId){
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if (optionalClient.isEmpty()) {
+            throw new NotFoundClientException("El usuario no existe");
+        }
+
+        Client client = optionalClient.get();
+
+        List<SubscriptionFund> subscriptionFunds = client.getFunds();
+
+        if(subscriptionFunds.isEmpty()){
+            return Response.builder()
+                    .message("El cliente no tiene suscripciones")
+                    .body(subscriptionFunds)
+                    .build();
+        }else{
+            return Response.builder()
+                    .message("Lista de suscripciones")
+                    .body(subscriptionFunds)
+                    .build();
+        }
+
+    }
+
+    public Response subscribeFund(FundSubscriptionRequestDTO request) throws Exception {
         Optional<Client> optionalClient = clientRepository.findById(request.getClientId());
         if (optionalClient.isEmpty()) {
-            throw new NotFoundClientException();
+            throw new NotFoundClientException("El usuario no existe");
         }
 
         Client client = optionalClient.get();
@@ -57,12 +84,19 @@ public class ClientService {
 
         clientRepository.save(client);
         transactionRepository.save(transaction);
+
+        emailService.sendEmail("drua@cidenet.com.co");
+
+        return Response.builder()
+                .message("Transaccion realizada con exito")
+                .body(transaction)
+                .build();
     }
 
-    public void unsubscribeFund(FundWithdrawalRequestDTO request) throws Exception {
+    public Response unsubscribeFund(FundWithdrawalRequestDTO request) throws Exception {
         Optional<Client> optionalClient = clientRepository.findById(request.getClientId());
         if (optionalClient.isEmpty()){
-            throw new NotFoundClientException();
+            throw new NotFoundClientException("El usuario no existe");
         }
 
         Client client = optionalClient.get();
@@ -82,6 +116,11 @@ public class ClientService {
 
         clientRepository.save(client);
         transactionRepository.save(transaction);
+
+        return Response.builder()
+                .message("Cancelacion realizada con exito")
+                .body(transaction)
+                .build();
     }
 
     private int getNextId() {
